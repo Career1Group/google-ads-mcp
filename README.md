@@ -120,7 +120,7 @@ To enable it, set the following environment variables:
 - `GOOGLE_ADS_MCP_STORAGE_DISABLE_ENCRYPTION`: (Optional) Set to `true` to disable token encryption.
 
 The `redis` and `firestore` backends need their storage library installed
-alongside the server: `pip install py-key-value-aio[redis]` and
+alongside the server: `pip install google-ads-mcp[redis]` and
 `pip install google-ads-mcp[firestore]` respectively.
 
 Once this is enabled, you can authenticate to the API through your MCP client.
@@ -342,7 +342,8 @@ Make sure to set the required environment variables:
 - `GOOGLE_ADS_MCP_STORAGE_TYPE`: (Recommended for production) Storage backend to persist OAuth tokens across instances. Set it to `firestore` to use Firestore through Application Default Credentials, which needs no VPC connector, or to `redis` along with `GOOGLE_ADS_MCP_STORAGE_REDIS_URL`.
 
   Using `firestore` requires three things: build the image with the extra
-  installed (change the Dockerfile to `uv pip install --system .[firestore]`),
+  installed (the Dockerfile ships `uv pip install --system ".[redis]"`, so
+  change it to `".[firestore]"` or `".[firestore,redis]"`),
   create a Firestore database in the project, since one is not provisioned
   automatically, and grant the Cloud Run service account `roles/datastore.user`.
   Note that entries are not expired automatically: the store filters expired

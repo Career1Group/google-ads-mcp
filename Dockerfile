@@ -1,8 +1,7 @@
-# Use a slim Python image
-FROM python:3.11-slim
-
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+# Use a slim Python image that already ships uv.
+# A `COPY --from=ghcr.io/astral-sh/uv:latest` step fails on some BuildKit
+# builders with an overlay cachemount error, so take uv from the base image.
+FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim
 
 # Set the working directory in the container
 WORKDIR /app
